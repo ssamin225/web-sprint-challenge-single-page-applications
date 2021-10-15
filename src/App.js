@@ -14,10 +14,27 @@ const initialOrder = {
 };
 
 const App = () => {
+  const [fullOrder, setFullOrder] = useState([]);
   const [order, setOrder] = useState(initialOrder);
 
   const updateOrder = (name, value) => {
     setOrder({ ...order, [name]: value });
+  }
+  
+  const addToOrder = () => {
+    const newOrder = {
+      name: order.name.trim(),
+      size: order.size,
+      toppings: [
+        'pepperoni',
+        'sausage',
+        'black_olives',
+        'extra_cheese'
+      ].filter(topping => order[topping]),
+      special: order.special
+    }
+
+    setFullOrder([newOrder, ...fullOrder])
   }
 
   return (
@@ -30,7 +47,7 @@ const App = () => {
       
       <Switch>
         <Route path='/pizza'>
-          <PizzaForm order={order} update={updateOrder} />
+          <PizzaForm order={order} update={updateOrder} submit={addToOrder} />
         </Route>
         <Route path='/'>
           <Home />

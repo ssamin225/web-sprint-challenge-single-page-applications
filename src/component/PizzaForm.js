@@ -1,7 +1,7 @@
 import React from "react";
 
 const PizzaForm = props => {
-    const { order, update } = props;
+    const { order, update, submit } = props;
 
     const onChange = evt => {
         const { name, value, type, checked } = evt.target;
@@ -9,8 +9,14 @@ const PizzaForm = props => {
         update(name, newValue);
     }
 
+    const onSubmit = evt => {
+        evt.preventDefault();
+
+        submit();
+    }
+
     return (
-        <form id='pizza-form'>
+        <form id='pizza-form' onSubmit={onSubmit} >
             <label>Name
                 <input 
                     type='text'
@@ -49,7 +55,7 @@ const PizzaForm = props => {
                 <input 
                     type='checkbox'
                     name='sausage'
-                    checked={order.pepperoni}
+                    checked={order.sausage}
                     onChange={onChange}
                 />
                 Sausage
@@ -58,7 +64,7 @@ const PizzaForm = props => {
                 <input 
                     type='checkbox'
                     name='black_olives'
-                    checked={order.pepperoni}
+                    checked={order.black_olives}
                     onChange={onChange}
                 />
                 Black Olives
@@ -67,7 +73,7 @@ const PizzaForm = props => {
                 <input 
                     type='checkbox'
                     name='extra_cheese'
-                    checked={order.pepperoni}
+                    checked={order.extra_cheese}
                     onChange={onChange}
                 />
                 Extra Cheese
@@ -82,6 +88,7 @@ const PizzaForm = props => {
                 maxLength='256'
                 onChange={onChange}
             />
+            <button>Add To Order</button>
         </form>
     );
 }
