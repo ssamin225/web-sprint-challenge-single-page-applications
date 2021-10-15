@@ -1,7 +1,7 @@
 import React from "react";
 
 const PizzaForm = props => {
-    const { order, update, submit, errors } = props;
+    const { order, update, submit, errors, disabled } = props;
 
     const onChange = evt => {
         const { name, value, type, checked } = evt.target;
@@ -19,6 +19,7 @@ const PizzaForm = props => {
         <form id='pizza-form' onSubmit={onSubmit} >
             <div>
                 <div>{errors.name}</div>
+                <div>{errors.size}</div>
             </div>
             <label>Name
                 <input 
@@ -91,7 +92,7 @@ const PizzaForm = props => {
                 maxLength='256'
                 onChange={onChange}
             />
-            <button>Add To Order</button>
+            <button id='order-button' disabled={disabled}>Add To Order</button>
         </form>
     );
 }

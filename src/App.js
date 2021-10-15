@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, NavLink, Switch } from 'react-router-dom';
 import Home from "./component/Home";
 import PizzaForm from "./component/PizzaForm";
@@ -23,6 +23,7 @@ const App = () => {
   const [fullOrder, setFullOrder] = useState([]);
   const [order, setOrder] = useState(initialOrder);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [disabled, setDisabled] = useState(true);
 
   const validate = (name, value) => {
     yup.reach(schema, name)
@@ -35,6 +36,10 @@ const App = () => {
     validate(name, value);
     setOrder({ ...order, [name]: value });
   }
+
+  useEffect(() => {
+    schema.isValid(order).then(valid => setDisabled(!valid))
+  }, [order])
 
   const addToOrder = () => {
     const newOrder = {
@@ -61,7 +66,12 @@ const App = () => {
       
       <Switch>
         <Route path='/pizza'>
-          <PizzaForm order={order} update={updateOrder} submit={addToOrder} errors={formErrors} />
+          <PizzaForm 
+            order={order} 
+            update={updateOrder} 
+            submit={addToOrder} 
+            errors={formErrors} 
+            disabled={disabled}/>
         </Route>
         <Route path='/'>
           <Home />
