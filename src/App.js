@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, NavLink, Switch } from 'react-router-dom';
 import Home from "./component/Home";
 import PizzaForm from "./component/PizzaForm";
 
+const initialOrder = {
+  name: '',
+  size: '',
+  topping1: false,
+  topping2: false,
+  special: '',
+};
+
 const App = () => {
+  const [order, setOrder] = useState(initialOrder);
+
+  const updateOrder = (name, value) => {
+    setOrder({ ...order, [name]: value });
+  }
+
   return (
     <div>
       <nav>
@@ -14,7 +28,7 @@ const App = () => {
       
       <Switch>
         <Route path='/pizza'>
-          <PizzaForm />
+          <PizzaForm order={order} update={updateOrder} />
         </Route>
         <Route path='/'>
           <Home />
