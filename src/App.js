@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Route, NavLink, Switch } from 'react-router-dom';
 import Home from "./component/Home";
 import PizzaForm from "./component/PizzaForm";
+import * as yup from 'yup';
+import schema from "./validation/schema";
 
 const initialOrder = {
   name: '',
@@ -13,14 +15,27 @@ const initialOrder = {
   special: '',
 };
 
+const initialFormErrors = {
+  name: ''
+}
+
 const App = () => {
   const [fullOrder, setFullOrder] = useState([]);
   const [order, setOrder] = useState(initialOrder);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+
+  const validate = (name, value) => {
+    yup.reach(schema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+      .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0] }))
+  }
 
   const updateOrder = (name, value) => {
+    validate(name, value);
     setOrder({ ...order, [name]: value });
   }
-  
+
   const addToOrder = () => {
     const newOrder = {
       name: order.name.trim(),
@@ -41,13 +56,12 @@ const App = () => {
     <div>
       <nav>
         <h1>Lambda Eats</h1>
-        <p>You can remove this code and create your own header</p>
         <NavLink to='/'>Home</NavLink>
       </nav>
       
       <Switch>
         <Route path='/pizza'>
-          <PizzaForm order={order} update={updateOrder} submit={addToOrder} />
+          <PizzaForm order={order} update={updateOrder} submit={addToOrder} errors={formErrors} />
         </Route>
         <Route path='/'>
           <Home />
