@@ -50,13 +50,11 @@ describe('Quotes App', () => {
 
         it('can check multiple toppings', () => {
             pepperoni()
-                .should('have.checked', false)
                 .check()
-                .should('have.checked', true);
+                .should('be.checked');
             black_olives()
-                .should('have.checked', false)
                 .check()
-                .should('have.checked', true);
+                .should('be.checked');
         })
         
         it('the submit button enables when both name and size are valid', () => {
