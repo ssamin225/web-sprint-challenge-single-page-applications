@@ -6,8 +6,10 @@ import PizzaForm from "./component/PizzaForm";
 const initialOrder = {
   name: '',
   size: '',
-  topping1: false,
-  topping2: false,
+  pepperoni: false,
+  sausage: false,
+  black_olives: false,
+  extra_cheese: false,
   special: '',
 };
 
